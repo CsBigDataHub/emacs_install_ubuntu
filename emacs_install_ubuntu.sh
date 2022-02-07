@@ -1,9 +1,26 @@
+# MIT License
 #
-# This is a semi complete emacs compile script for emacs (on master branch - currently 28.0.50). Please make pull requests if you find the apt install incomplete, or have updates for this.
+# Copyright (c) 2022 CK
 #
-# Currently tested on:
-# 1. WSL 2 with Ubuntu 20.04.2 LTS (Focal Fossa)
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+branch=${1}
 
 if [ -d ~/git-repos ]; then
     if [ -d ~/git-repos/emacs ]; then
@@ -23,9 +40,12 @@ git clean -xdf
 
 git reset --hard
 
+git checkout -b ${branch} origin/{branch}
+
 git pull
 
 sudo apt update
+
 sudo apt install -y autoconf make gcc texinfo libgtk-3-dev libxpm-dev \
      libjpeg-dev libgif-dev libtiff5-dev libgnutls28-dev libncurses5-dev \
      libjansson-dev libharfbuzz-dev libharfbuzz-bin imagemagick libmagickwand-dev libgccjit-10-dev libgccjit0 gcc-10 libjansson4 libjansson-dev xaw3dg-dev texinfo libx11-dev
