@@ -5,9 +5,23 @@
 # 1. WSL 2 with Ubuntu 20.04.2 LTS (Focal Fossa)
 #
 
-git clone git://git.savannah.gnu.org/emacs.git ~/git/emacs
+if [ -d ~/git-repos ]; then
+    if [ -d ~/git-repos/emacs ]; then
+        echo "Assuming emacs repo is already cloned"
+    else
+        git clone git://git.savannah.gnu.org/emacs.git ~/git-repos/emacs
+    fi
+else
+    echo "Cloning emacs repo for the first time"
+    mkdir -p ~/git-repos
+    git clone git://git.savannah.gnu.org/emacs.git ~/git-repos/emacs
+fi
 
-cd ~/git/emacs
+cd ~/git-repos/emacs
+
+git clean -xdf
+
+git reset --hard
 
 git pull
 
@@ -20,9 +34,13 @@ export CC="gcc-10"
 
 ./autogen.sh
 
-./configure --with-native-compilation -with-json --with-modules --with-harfbuzz --with-compress-install \
-   --with-threads --with-included-regex --with-x-toolkit=lucid --with-zlib --with-jpeg --with-png --with-imagemagick --with-tiff --with-xpm --with-gnutls \
-   --with-xft --with-xml2 --with-mailutils
+./configure --with-native-compilation -with-json \
+            --with-modules --with-harfbuzz --with-compress-install \
+            --with-threads --with-included-regex --with-x-toolkit=lucid \
+            --with-zlib --with-jpeg --with-png --with-imagemagick --with-tiff \
+            --with-xpm --with-gnutls --with-xft \
+            # --with-pgtk \ #only on emacs-29
+            --with-xml2 --with-mailutils
 
-make -j 8
+make NATIVE_FULL_AOT=1 -j $(nproc)
 sudo make install
