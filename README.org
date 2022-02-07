@@ -1,0 +1,2 @@
+* SRC installs
+This is my script collection that I use when ever i need to install something from source. Feel free to use it. Use at your own risk!
